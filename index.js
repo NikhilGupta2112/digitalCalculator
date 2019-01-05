@@ -63,7 +63,7 @@ var calculator = {
     this.displayExpression('0');
     this.displayResult("");
   },
-  startCalculator: function (expressionNodeId, resultNodeId) {
+  init: function (expressionNodeId, resultNodeId) {
     this.expressionNode = document.getElementById(expressionNodeId);
     this.resultNode = document.getElementById(resultNodeId);
     this.displayExpression('0');
@@ -78,7 +78,6 @@ var calculator = {
     this.currentOperator = inputOperator;
     if (this.result !== "") this.inputNumbers = [this.result];
     this.inputNumbers.push(inputOperator);
-    }
     this.expression += inputOperator;
     this.displayExpression(this.expression);
   },

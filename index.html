@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <script type="text/javascript" src="./index.js">  </script>
+    <script type="text/javascript" src="./index.js"> </script>
     <meta charset="utf-8">
-    <title></title>
+    <title>Digital Calculator</title>
+    <script>
+      window.onload  = function() {
+        calculator.init('expressionScreen', 'resultScreen');
+      }
+    </script>
   </head>
-  <body onload="calculator.startCalculator('expressionScreen', 'resultScreen')">
+  <body>
+    <div id='calculator'></div>
     <button onclick="calculator.onNumberInput(1)">1</button>
     <button onclick="calculator.onNumberInput(2)">2</button>
     <button onclick="calculator.onNumberInput(3)">3</button>
     <br>
-    <!-- <button type="button"id="c16" name="button"></button><br> -->
-    <button onclick="calculator.onNumberInput(4)">4</button>
     <button onclick="calculator.onNumberInput(5)">5</button>
     <button onclick="calculator.onNumberInput(6)">6</button>
     <br>
@@ -27,8 +31,6 @@
     <button onclick="calculator.onOperatorInput('/')">/</button>
     <button onclick="calculator.onEqualOperator()">=</button>
     <br>
-    <!-- <button type="text"id="c14" name="button">  result  </button><br> -->
-    <button onclick="calculator.reset()">c</button>
    <p><span id="expressionScreen"></span></p>
    <p><span id="resultScreen"></span></p>
   </body>
