@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <script type="text/javascript" src="./index.js">  </script>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body onload="calculator.startCalculator('expressionScreen', 'resultScreen')">
+    <button onclick="calculator.onNumberInput(1)">1</button>
+    <button onclick="calculator.onNumberInput(2)">2</button>
+    <button onclick="calculator.onNumberInput(3)">3</button>
+    <br>
+    <!-- <button type="button"id="c16" name="button"></button><br> -->
+    <button onclick="calculator.onNumberInput(4)">4</button>
+    <button onclick="calculator.onNumberInput(5)">5</button>
+    <button onclick="calculator.onNumberInput(6)">6</button>
+    <br>
+    <button onclick="calculator.onNumberInput(7)">7</button>
+    <button onclick="calculator.onNumberInput(8)">8</button>
+    <button onclick="calculator.onNumberInput(9)">9</button>
+    <br>
+    <button onclick="calculator.onNumberInput(0)">0</button>
+    <button onclick="calculator.onNumberInput('.')">.</button>
+    <button onclick="calculator.onOperatorInput('+')">+</button>
+    <button onclick="calculator.onOperatorInput('-')">-</button>
+    <button onclick="calculator.onOperatorInput('*')">*</button>
+    <button onclick="calculator.onOperatorInput('/')">/</button>
+    <button onclick="calculator.onEqualOperator()">=</button>
+    <br>
+    <!-- <button type="text"id="c14" name="button">  result  </button><br> -->
+    <button onclick="calculator.reset()">c</button>
+   <p><span id="expressionScreen"></span></p>
+   <p><span id="resultScreen"></span></p>
+  </body>
+</html>
