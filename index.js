@@ -57,25 +57,114 @@ var calculator = {
     '^': (a, b) => a ^ b,
   },
   reset: function () {
+    this.currentInputNumber = '';
     this.expression = '';
     this.inputNumbers = [];
-    this.inputOperator = [];
+    this.currentOperator = '';
     this.displayExpression('0');
+    this.result = '';
     this.displayResult("");
   },
-  init: function (expressionNodeId, resultNodeId) {
-    this.expressionNode = document.getElementById(expressionNodeId);
-    this.resultNode = document.getElementById(resultNodeId);
-    this.displayExpression('0');
+  init: function (calculatorContainer) {
+    let displayNode = document.createElement("div");
+    calculatorContainer.appendChild(displayNode);
+
+    let expressionNode = document.createElement("span");
+    expressionNode.innerText = '0';
+    expressionNode.id = "expressionScreen";
+    displayNode.appendChild(expressionNode);
+    this.expressionNode = expressionNode;
+
+
+    let resultNode = document.createElement("span");
+    resultNode.innerText = " ";
+    resultNode.id = "resultScreen";
+    displayNode.appendChild(resultNode);
+    this.resultNode = resultNode ;
+
+    let numberBlock = document.createElement("div");
+    calculatorContainer.appendChild(numberBlock);
+
+    for( let i =0 ; i < 10 ; i++) {
+      let numberButton = document.createElement("button");
+      numberButton.innerText = i;
+      numberButton.onclick = () => this.onNumberInput(i);
+      numberBlock.appendChild(numberButton);
+    }
+
+    let numberButtonDecimal = document.createElement("button");
+    numberButtonDecimal.innerText = ".";
+    numberButtonDecimal.onclick = () => this.onNumberInput('.');
+    numberBlock.appendChild(numberButtonDecimal);
+
+    let operatorBlock = document.createElement("div");
+    calculatorContainer.appendChild(operatorBlock);
+
+    let operatorPlus = document.createElement("button");
+    operatorPlus.innerText = "+";
+    operatorPlus.onclick = () => this.onOperatorInput('+');
+    operatorBlock.appendChild(operatorPlus);
+
+    let operatorMinus = document.createElement("button");
+    operatorMinus.innerText = "-";
+    operatorMinus.onclick = () => this.onOperatorInput('-');
+    operatorBlock.appendChild(operatorMinus);
+
+    let operatorMultiply = document.createElement("button");
+    operatorMultiply.innerText = "*";
+    operatorMultiply.onclick = () => this.onOperatorInput('*');
+    operatorBlock.appendChild(operatorMultiply);
+
+    let operatorDivide = document.createElement("button");
+    operatorDivide.innerText = "/";
+    operatorDivide.onclick = () => this.onOperatorInput('/');
+    operatorBlock.appendChild(operatorDivide);
+
+    let operatorEqual = document.createElement("button");
+    operatorEqual.innerText = "=";
+    // operatorEqual.onclick = () => this.onEqualOperator();
+    operatorEqual.onclick = () => this.onEqualOperatorExecution();
+    operatorBlock.appendChild(operatorEqual);
+
+    let clearButton = document.createElement("button");
+    clearButton.innerText = "C" ;
+    clearButton.onclick = this.reset.bind(this);
+    calculatorContainer.appendChild(clearButton);
+
+    // this.expressionNode = document.getElementById(expressionNodeId);
+    // this.resultNode = document.getElementById(resultNodeId);
+    // this.displayExpression('0');
   },
   onNumberInput: function(inputNum) {
+  //  this.testInputNum.push(inputNum);
+    if(this.expression == '' && (this.inputNumbers == [] && this.result !== '')) {
+      this.displayExpression('');
+      this.displayResult('');
+       this.inputNumbers = [this.result] ;
+       this.result = '';
+
+     }
+    this.currentInputNumber = inputNum;
     this.inputNumbers.push(inputNum);
     this.expression += inputNum.toString();
     this.displayExpression(this.expression);
     if (this.currentOperator !== "")  this.onEqualOperator();
   },
   onOperatorInput: function(inputOperator) {
+    if(this.expression == '' && (this.inputNumbers == [] && this.result !== '')) {
+       this.inputNumbers = [];
+       this.inputNumbers = [this.result] ;
+       this.expression += this.result.toString();
+       this.result = '';
+     }
     this.currentOperator = inputOperator;
+    var inputNumbersLength=0;
+    var expressionLength = this.expression.length;
+    inputNumbersLength = this.inputNumbers.length;
+    if (typeof(this.inputNumbers[inputNumbersLength-1]) == "string" && this.inputNumbers[inputNumbersLength-1] !== '.') {
+      this.inputNumbers.pop();
+      this.expression = this.expression.substring(0, expressionLength-1);
+    }
     if (this.result !== "") this.inputNumbers = [this.result];
     this.inputNumbers.push(inputOperator);
     this.expression += inputOperator;
@@ -89,10 +178,23 @@ var calculator = {
     var secondOperand = Number(secondOperandArray.join(''));
     var result = this.operatorsFunctionsMap[this.currentOperator](firstOperand, secondOperand);
     this.result = result;
-    this.displayResult('= '+result);
+    this.displayResult(' = '+result);
+
 
 
   },
+
+  onEqualOperatorExecution: function() {
+  //   this.onEqualOperator();
+
+    this.inputNumbers = [];
+    this.expression = '' ;
+    this.displayExpression(this.expression);
+    this.displayResult(this.result);
+
+
+  },
+
   displayExpression: function (expression){
     this.expressionNode.innerText = expression;
   },

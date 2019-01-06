@@ -5,33 +5,21 @@
     <meta charset="utf-8">
     <title>Digital Calculator</title>
     <script>
-      window.onload  = function() {
-        calculator.init('expressionScreen', 'resultScreen');
+    //  window.onload  = function() {
+      //  calculator.init(document.getElementById('calculator'));
+      //}
+
+
+      window.onload = () => {
+        calculator.init(document.getElementById('calculator'));
       }
+
+      // window.onload = calculator.init(document.getElementById('calculator'));
+      // alternate of 8,9,10
+      // window.onload = calculator.init;
     </script>
   </head>
   <body>
-    <div id='calculator'></div>
-    <button onclick="calculator.onNumberInput(1)">1</button>
-    <button onclick="calculator.onNumberInput(2)">2</button>
-    <button onclick="calculator.onNumberInput(3)">3</button>
-    <br>
-    <button onclick="calculator.onNumberInput(5)">5</button>
-    <button onclick="calculator.onNumberInput(6)">6</button>
-    <br>
-    <button onclick="calculator.onNumberInput(7)">7</button>
-    <button onclick="calculator.onNumberInput(8)">8</button>
-    <button onclick="calculator.onNumberInput(9)">9</button>
-    <br>
-    <button onclick="calculator.onNumberInput(0)">0</button>
-    <button onclick="calculator.onNumberInput('.')">.</button>
-    <button onclick="calculator.onOperatorInput('+')">+</button>
-    <button onclick="calculator.onOperatorInput('-')">-</button>
-    <button onclick="calculator.onOperatorInput('*')">*</button>
-    <button onclick="calculator.onOperatorInput('/')">/</button>
-    <button onclick="calculator.onEqualOperator()">=</button>
-    <br>
-   <p><span id="expressionScreen"></span></p>
-   <p><span id="resultScreen"></span></p>
+     <div id='calculator'></div>
   </body>
 </html>
