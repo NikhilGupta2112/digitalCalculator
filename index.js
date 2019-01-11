@@ -45,6 +45,7 @@ Use case 2: Arithmetic operations between multi digit numbers e.g. 123 + 425
 
 */
 var calculator = {
+  determineDotOrNot : 0,
   inputNumbers: [],
   currentOperator: '',
   expression: '',
@@ -56,7 +57,11 @@ var calculator = {
     '/': (a, b) => a / b,
     '^': (a, b) => a ^ b,
   },
+   // determineDotOrNotFun : function () {
+   //   this.determineDotOrNot = 1;
+   // },
   reset: function () {
+    this.determineDotOrNot = 0;
     this.currentInputNumber = '';
     this.expression = '';
     this.inputNumbers = [];
@@ -103,6 +108,7 @@ var calculator = {
     let operatorPlus = document.createElement("button");
     operatorPlus.innerText = "+";
     operatorPlus.onclick = () => this.onOperatorInput('+');
+    // operatorPlus.onclick = () => this.determineDotOrNotFun();
     operatorBlock.appendChild(operatorPlus);
 
     let operatorMinus = document.createElement("button");
@@ -131,41 +137,27 @@ var calculator = {
     clearButton.onclick = this.reset.bind(this);
     calculatorContainer.appendChild(clearButton);
 
-    // this.expressionNode = document.getElementById(expressionNodeId);
-    // this.resultNode = document.getElementById(resultNodeId);
-    // this.displayExpression('0');
   },
   onNumberInput: function(inputNum) {
-  //  this.testInputNum.push(inputNum);
-    if(this.expression == '' && (this.inputNumbers == [] && this.result !== '')) {
-      this.displayExpression('');
-      this.displayResult('');
-       this.inputNumbers = [this.result] ;
-       this.result = '';
+    if (this.inputNumbers.lastIndexOf('.') > this.inputNumbers.lastIndexOf(this.currentOperator) && inputNum === '.')  {
+      return ;
+    }
 
-     }
-    this.currentInputNumber = inputNum;
     this.inputNumbers.push(inputNum);
     this.expression += inputNum.toString();
     this.displayExpression(this.expression);
     if (this.currentOperator !== "")  this.onEqualOperator();
   },
   onOperatorInput: function(inputOperator) {
-    if(this.expression == '' && (this.inputNumbers == [] && this.result !== '')) {
-       this.inputNumbers = [];
-       this.inputNumbers = [this.result] ;
-       this.expression += this.result.toString();
-       this.result = '';
-     }
     this.currentOperator = inputOperator;
-    var inputNumbersLength=0;
-    var expressionLength = this.expression.length;
-    inputNumbersLength = this.inputNumbers.length;
-    if (typeof(this.inputNumbers[inputNumbersLength-1]) == "string" && this.inputNumbers[inputNumbersLength-1] !== '.') {
+    var inputNumbersLength = this.inputNumbers.length;
+  if (typeof(this.inputNumbers[inputNumbersLength-1]) == "string" && this.inputNumbers[inputNumbersLength-1] !== '.') {
       this.inputNumbers.pop();
-      this.expression = this.expression.substring(0, expressionLength-1);
+      this.expression = this.expression.substring(0, this.expression.length-1);
     }
-    if (this.result !== "") this.inputNumbers = [this.result];
+    if(this.result ) {
+      this.inputNumbers = [this.result];
+    }
     this.inputNumbers.push(inputOperator);
     this.expression += inputOperator;
     this.displayExpression(this.expression);
@@ -174,27 +166,19 @@ var calculator = {
     var currentOperatorPosition = this.inputNumbers.indexOf(this.currentOperator);
     var firstOperandArray = this.inputNumbers.slice(0, currentOperatorPosition);
     var secondOperandArray = this.inputNumbers.slice(currentOperatorPosition + 1);
-    var firstOperand = Number(firstOperandArray.join(''));
-    var secondOperand = Number(secondOperandArray.join(''));
-    var result = this.operatorsFunctionsMap[this.currentOperator](firstOperand, secondOperand);
-    this.result = result;
-    this.displayResult(' = '+result);
+    var firstOperand = Number(firstOperandArray.join('')) ;
+    if (!firstOperand || isNaN(firstOperand))  firstOperand = 0;
+    var secondOperand = Number(secondOperandArray.join('')) ;
+    if (!secondOperand || isNaN(secondOperand))  secondOperand = 0;
 
-
-
+    this.result = this.operatorsFunctionsMap[this.currentOperator](firstOperand, secondOperand);
+    this.displayResult(' = ' + this.result);
   },
-
   onEqualOperatorExecution: function() {
-  //   this.onEqualOperator();
-
-    this.inputNumbers = [];
-    this.expression = '' ;
-    this.displayExpression(this.expression);
-    this.displayResult(this.result);
-
-
+    this.inputNumbers = [this.result];
+    this.displayExpression(this.result);
+    this.displayResult('');
   },
-
   displayExpression: function (expression){
     this.expressionNode.innerText = expression;
   },
